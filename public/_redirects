@@ -1,5 +1,5 @@
-/terms    /terms.html    200
-/privacy  /privacy.html  200
-/install  /install.html  200
-/status   /status.html   200
-/         /install.html  200
+/terms    /terms.html    301
+/privacy  /privacy.html  301
+/install  /install.html  301
+/status   /status.html   301
+/         /install.html  301
