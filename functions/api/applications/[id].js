@@ -4,7 +4,7 @@
  * 内容・コメントは返さない
  */
 
-import { getDb } from '../../_utils/db.js';
+import { getDb } from "../_utils/db.js";
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
