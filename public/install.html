@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install — Nexus Bot</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .hero { padding: 80px 0 48px; text-align: center; }
+    .hero h1 { font-size: clamp(32px,6vw,56px); font-weight:800; margin-bottom:16px; letter-spacing:-1px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size:16px; color:var(--text2); max-width:520px; margin:0 auto 32px; line-height:1.8; }
+    .hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    /* FEATURES */
+    .features { padding: 80px 0; }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 16px; margin-top: 40px;
+    }
+    .feature-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: border-color var(--trans), transform var(--trans);
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .feature-icon { font-size: 28px; margin-bottom: 12px; }
+    .feature-title { font-size:15px; font-weight:700; margin-bottom:6px; }
+    .feature-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+
+    /* PROGRESS */
+    .progress-section { padding: 80px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .progress-layout { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: center; margin-top: 40px; }
+    .progress-list { display: flex; flex-direction: column; gap: 16px; }
+    .progress-item { display: flex; flex-direction: column; gap: 6px; }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; }
+    .progress-name { font-size:14px; font-weight:600; }
+    .progress-pct { font-size:12px; font-family:monospace; color:var(--accent); }
+    .progress-bar { height:6px; background:var(--bg3); border-radius:3px; overflow:hidden; }
+    .progress-fill { height:100%; border-radius:3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+
+    /* DONUT CHART */
+    .chart-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .donut-container { position: relative; width: 240px; height: 240px; }
+    .donut-canvas { width:100%; height:100%; }
+    .donut-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .donut-pct { font-size: 36px; font-weight: 800; font-family: monospace; color: var(--accent); }
+    .donut-label { font-size: 11px; color: var(--muted); font-family: monospace; text-transform: uppercase; letter-spacing: 1px; }
+    .chart-legend { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text2); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* STEPS */
+    .steps-section { padding: 80px 0; }
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 40px; position: relative; }
+    .steps::before {
+      content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .step { display: flex; gap: 24px; padding-bottom: 40px; position: relative; }
+    .step:last-child { padding-bottom: 0; }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--bg3); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: monospace; font-size: 13px; font-weight: 700; color: var(--accent);
+      position: relative; z-index: 1;
+    }
+    .step-num.done { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .step-content { padding-top: 8px; }
+    .step-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .step-desc { font-size: 14px; color: var(--text2); }
+
+    /* VERSION */
+    .version-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 16px;
+      font-family: monospace; font-size: 13px; color: var(--text2);
+      margin-bottom: 24px;
+    }
+    .version-badge span { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .progress-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><span>[</span>Nexus<span>]</span></a>
+      <ul class="nav-links">
+        <li><a href="/install" class="active">Install</a></li>
+        <li><a href="/status">Status</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero fade-up">
+      <div class="container">
+        <div class="version-badge">
+          <span>v0.7.0</span> · AGPL-3.0 · discord.js v14
+        </div>
+        <div data-lang="ja" class="active">
+          <h1>Nexus <span>Bot</span></h1>
+          <p>モデレーション・時報・投票・申請システムを備えたオールインワンのDiscordユーティリティBot。</p>
+        </div>
+        <div data-lang="en">
+          <h1>Nexus <span>Bot</span></h1>
+          <p>An all-in-one Discord utility bot with moderation, hourly announcements, polls, and an application system.</p>
+        </div>
+        <div class="hero-actions">
+          <a href="https://discord.com/oauth2/authorize?client_id=1484039251954765985&permissions=8&scope=bot+applications.commands"
+             class="btn btn-primary" target="_blank">
+            ⚡ <span data-lang="ja" class="active">サーバーに追加</span><span data-lang="en">Add to Server</span>
+          </a>
+          <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus" class="btn btn-secondary" target="_blank">
+            🐙 GitHub
+          </a>
+          <a href="https://nexus-dashboard-4nu.pages.dev" class="btn btn-secondary" target="_blank">
+            ⚙️ Dashboard
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="container">
+        <p class="label">Features</p>
+        <div data-lang="ja" class="active"><h2 style="font-size:28px;font-weight:800;margin-bottom:4px">主な機能</h2></div>
+        <div data-lang="en"><h2 style="font-size:28px;font-weight:800;margin-bottom:4px">Key Features</h2></div>
+        <div class="features-grid" id="featuresGrid"></div>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="progress-section">
+      <div class="container">
+        <p class="label">Development</p>
+        <div data-lang="ja" class="active"><h2 style="font-size:28px;font-weight:800;margin-bottom:4px">開発進捗</h2><p style="color:var(--text2);font-size:15px">v1.0.0 正式リリースに向けた進捗状況</p></div>
+        <div data-lang="en"><h2 style="font-size:28px;font-weight:800;margin-bottom:4px">Progress</h2><p style="color:var(--text2);font-size:15px">Progress toward v1.0.0 stable release</p></div>
+        <div class="progress-layout">
+          <div class="progress-list" id="progressList"></div>
+          <div class="chart-wrap">
+            <div class="donut-container">
+              <canvas class="donut-canvas" id="donutCanvas" width="240" height="240"></canvas>
+              <div class="donut-center">
+                <span class="donut-pct" id="donutPct">0%</span>
+                <span class="donut-label">Overall</span>
+              </div>
+            </div>
+            <div class="chart-legend" id="chartLegend"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="steps-section">
+      <div class="container">
+        <p class="label">Setup</p>
+        <div data-lang="ja" class="active"><h2 style="font-size:28px;font-weight:800">導入手順</h2></div>
+        <div data-lang="en"><h2 style="font-size:28px;font-weight:800">How to Install</h2></div>
+        <div class="steps" id="stepsList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 OCxeRu2951 · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus">GitHub</a></p>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    const FEATURES = {
+      ja: [
+        { icon:'🛡️', title:'モデレーション', desc:'警告ポイント制・自動エスカレーション・ログ記録。kick/ban/timeout/slowmode/lockに対応。' },
+        { icon:'🕐', title:'時報', desc:'時間・曜日ごとにカスタマイズ可能なアナウンス。Embed・画像・ファイル添付対応。' },
+        { icon:'📊', title:'投票', desc:'匿名・複数選択・ロール制限・結果自動通知など多彩なオプションを搭載。' },
+        { icon:'📩', title:'申請システム', desc:'チャンネル作成やロール作成などの依頼をコマンドで管理。承認/拒否ボタン付き。' },
+        { icon:'⏱', title:'タイマー', desc:'分・秒単位で設定可能。再起動後も通知を保証。' },
+        { icon:'💤', title:'AFK', desc:'AFK設定・メンション時の自動返信・24時間自動解除。' },
+        { icon:'🎲', title:'ダイス', desc:'バフ・デバフによる重み付き抽選。複数セット対応。' },
+        { icon:'🌐', title:'多言語対応', desc:'日本語・英語に対応。/langコマンドで切り替え可能。' },
+      ],
+      en: [
+        { icon:'🛡️', title:'Moderation', desc:'Warning point system, auto-escalation, logging. Supports kick/ban/timeout/slowmode/lock.' },
+        { icon:'🕐', title:'Hourly Announcements', desc:'Customizable per hour and day of week. Supports embeds, images, and file attachments.' },
+        { icon:'📊', title:'Polls', desc:'Anonymous, multi-choice, role-restricted polls with automatic result notifications.' },
+        { icon:'📩', title:'Application System', desc:'Manage requests like channel/role creation via commands with approve/reject buttons.' },
+        { icon:'⏱', title:'Timer', desc:'Set in minutes and seconds. Notifications guaranteed even after restarts.' },
+        { icon:'💤', title:'AFK', desc:'AFK status, auto-reply on mention, 24-hour auto-clear.' },
+        { icon:'🎲', title:'Dice', desc:'Weighted random rolls with buff/debuff mechanics. Multi-set support.' },
+        { icon:'🌐', title:'Multilingual', desc:'Supports Japanese and English. Switch with /lang command.' },
+      ],
+    };
+
+    const PROGRESS_DATA = {
+      ja: [
+        { name:'コアコマンド',     pct:100, color:'#23a55a' },
+        { name:'モデレーション',   pct:95,  color:'#f07830' },
+        { name:'申請システム',     pct:90,  color:'#4a8af0' },
+        { name:'DB・永続化',       pct:95,  color:'#a855f7' },
+        { name:'多言語対応',       pct:60,  color:'#f0b232' },
+        { name:'ダッシュボード',   pct:75,  color:'#22c55e' },
+        { name:'ドキュメント',     pct:50,  color:'#6a6460' },
+      ],
+      en: [
+        { name:'Core Commands',    pct:100, color:'#23a55a' },
+        { name:'Moderation',       pct:95,  color:'#f07830' },
+        { name:'Apply System',     pct:90,  color:'#4a8af0' },
+        { name:'DB Persistence',   pct:95,  color:'#a855f7' },
+        { name:'i18n',             pct:60,  color:'#f0b232' },
+        { name:'Dashboard',        pct:75,  color:'#22c55e' },
+        { name:'Documentation',    pct:50,  color:'#6a6460' },
+      ],
+    };
+
+    const STEPS = {
+      ja: [
+        { num:'01', title:'ボタンをクリック', desc:'「サーバーに追加」ボタンをクリックしてください。', done:false },
+        { num:'02', title:'サーバーを選択', desc:'Nexusを追加したいサーバーをドロップダウンから選択します。', done:false },
+        { num:'03', title:'権限を確認して承認', desc:'必要な権限を確認し「承認」をクリックします。', done:false },
+        { num:'04', title:'コマンドを使う', desc:'/help または /setmod でセットアップを開始できます。', done:false },
+        { num:'05', title:'ダッシュボードで設定', desc:'dashboard.nexus.dev からログインして詳細設定が可能です。', done:false },
+      ],
+      en: [
+        { num:'01', title:'Click the button', desc:'Click the "Add to Server" button above.', done:false },
+        { num:'02', title:'Select your server', desc:'Choose the server you want to add Nexus to.', done:false },
+        { num:'03', title:'Review and authorize', desc:'Check the required permissions and click "Authorize".', done:false },
+        { num:'04', title:'Start using commands', desc:'Use /help or /setmod to begin setup.', done:false },
+        { num:'05', title:'Configure via Dashboard', desc:'Log in at dashboard.nexus.dev for detailed settings.', done:false },
+      ],
+    };
+
+    function renderFeatures(lang) {
+      const grid = document.getElementById('featuresGrid');
+      grid.innerHTML = FEATURES[lang].map(f => `
+        <div class="feature-card">
+          <div class="feature-icon">${f.icon}</div>
+          <div class="feature-title">${f.title}</div>
+          <div class="feature-desc">${f.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderProgress(lang) {
+      const data = PROGRESS_DATA[lang];
+      const list = document.getElementById('progressList');
+      list.innerHTML = data.map(d => `
+        <div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-name">${d.name}</span>
+            <span class="progress-pct">${d.pct}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:0%;background:${d.color}" data-target="${d.pct}"></div>
+          </div>
+        </div>
+      `).join('');
+
+      // アニメーション
+      setTimeout(() => {
+        document.querySelectorAll('.progress-fill').forEach(el => {
+          el.style.width = el.dataset.target + '%';
+        });
+      }, 100);
+
+      // 凡例
+      const legend = document.getElementById('chartLegend');
+      legend.innerHTML = data.map(d => `
+        <div class="legend-item">
+          <div class="legend-dot" style="background:${d.color}"></div>
+          <span>${d.name}</span>
+          <span style="margin-left:auto;font-family:monospace;font-size:12px;color:var(--muted)">${d.pct}%</span>
+        </div>
+      `).join('');
+
+      // 全体進捗
+      const overall = Math.round(data.reduce((s, d) => s + d.pct, 0) / data.length);
+      document.getElementById('donutPct').textContent = overall + '%';
+      drawDonut(data, overall);
+    }
+
+    function drawDonut(data, overall) {
+      const canvas = document.getElementById('donutCanvas');
+      const ctx    = canvas.getContext('2d');
+      const cx = 120, cy = 120, r = 90, thickness = 22;
+      ctx.clearRect(0, 0, 240, 240);
+
+      const total = data.reduce((s, d) => s + d.pct, 0);
+      let start = -Math.PI / 2;
+
+      data.forEach(d => {
+        const angle = (d.pct / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, start, start + angle);
+        ctx.lineWidth = thickness;
+        ctx.strokeStyle = d.color;
+        ctx.stroke();
+        start += angle;
+      });
+
+      // 内側の円（背景）
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - thickness / 2 - 2, 0, Math.PI * 2);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'var(--border)';
+      ctx.stroke();
+    }
+
+    function renderSteps(lang) {
+      const steps = STEPS[lang];
+      document.getElementById('stepsList').innerHTML = steps.map(s => `
+        <div class="step">
+          <div class="step-num ${s.done ? 'done' : ''}">${s.done ? '✓' : s.num}</div>
+          <div class="step-content">
+            <div class="step-title">${s.title}</div>
+            <div class="step-desc">${s.desc}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function initPage(lang) {
+      renderFeatures(lang);
+      renderProgress(lang);
+      renderSteps(lang);
+    }
+
+    // 言語切り替え時に再レンダリング
+    document.addEventListener('langChanged', e => initPage(e.detail));
+
+    initPage(localStorage.getItem('lang') || 'ja');
+  </script>
+</body>
+</html>

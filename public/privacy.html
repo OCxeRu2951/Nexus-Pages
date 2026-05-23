@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Nexus Bot</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .hero { padding: 64px 0 48px; }
+    .hero h1 { font-size: clamp(28px,5vw,42px); font-weight:800; margin-bottom:8px; }
+    .hero .meta { font-size:13px; color:var(--muted); font-family:monospace; margin-top:8px; }
+    h2 {
+      font-size:17px; font-weight:700; margin:36px 0 12px;
+      padding-left:12px; border-left:3px solid var(--accent);
+    }
+    p { color:var(--text2); font-size:15px; margin-bottom:14px; }
+    ul { color:var(--text2); font-size:15px; padding-left:22px; margin-bottom:14px; }
+    li { margin-bottom:6px; }
+    .info-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px; margin:24px 0;
+    }
+    .info-item {
+      background:var(--bg3); border:1px solid var(--border);
+      border-radius:var(--radius); padding:16px;
+    }
+    .info-item .info-label {
+      font-size:11px; font-family:monospace; text-transform:uppercase;
+      letter-spacing:1px; color:var(--accent); margin-bottom:6px;
+    }
+    .info-item .info-value { font-size:14px; color:var(--text2); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><span>[</span>OCxeRu2951<span>]</span></a>
+      <ul class="nav-links">
+        <li><a href="/install">Install</a></li>
+        <li><a href="/status">Status</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/privacy" class="active">Privacy</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="hero fade-up">
+        <p class="label">Legal</p>
+        <div data-lang="ja" class="active">
+          <h1>プライバシーポリシー</h1>
+          <p class="meta">最終更新: 2026年5月14日</p>
+        </div>
+        <div data-lang="en">
+          <h1>Privacy Policy</h1>
+          <p class="meta">Last updated: May 14, 2026</p>
+        </div>
+      </div>
+
+      <!-- 日本語 -->
+      <div data-lang="ja" class="active fade-up">
+        <div class="card" style="margin-bottom:32px">
+          <p>OCxeRu2951（以下「開発者」）は、Discord Bot「Nexus」（以下「本Bot」）の利用に際して収集する情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
+        </div>
+
+        <h2>収集する情報</h2>
+        <p>本Botは以下の情報を収集・保存します。</p>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">ユーザー情報</div>
+            <div class="info-value">Discord ユーザーID・ユーザー名</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">サーバー情報</div>
+            <div class="info-value">ギルドID・チャンネルID・ロールID</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">コマンドデータ</div>
+            <div class="info-value">投票・警告・申請・AFK等のデータ</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">設定情報</div>
+            <div class="info-value">各サーバーの設定値</div>
+          </div>
+        </div>
+
+        <h2>収集しない情報</h2>
+        <ul>
+          <li>メッセージの内容（コマンド実行時のコンテンツを除く）</li>
+          <li>パスワード・認証情報</li>
+          <li>メールアドレス・電話番号等の個人識別情報</li>
+          <li>位置情報</li>
+        </ul>
+
+        <h2>情報の利用目的</h2>
+        <ul>
+          <li>本Botの機能提供（投票・モデレーション・時報等）</li>
+          <li>サービスの改善・デバッグ</li>
+          <li>不正利用の防止</li>
+        </ul>
+
+        <h2>情報の保存期間</h2>
+        <ul>
+          <li>AFK・投票データ: サーバー設定に準じる（デフォルト7〜90日）</li>
+          <li>警告データ: デフォルト90日</li>
+          <li>申請データ: デフォルト90日</li>
+          <li>モデレーションログ: サーバーが削除するまで</li>
+          <li>サーバー設定: Botがサーバーを退出するまで</li>
+        </ul>
+
+        <h2>第三者への提供</h2>
+        <p>収集した情報を第三者に販売・提供することはありません。ただし、以下の場合を除きます。</p>
+        <ul>
+          <li>法律・法的手続きにより開示が求められた場合</li>
+          <li>サービス提供に必要なインフラ事業者（Turso・Cloudflare・GCP）への必要最低限の情報共有</li>
+        </ul>
+
+        <h2>データの削除</h2>
+        <p>以下の方法でデータを削除できます。</p>
+        <ul>
+          <li>サーバーからBotを除外する（そのサーバーの全データが削除されます）</li>
+          <li>GitHubのIssueまたはサポートサーバーにて削除を申請する</li>
+        </ul>
+
+        <h2>セキュリティ</h2>
+        <p>データはTursoデータベースに暗号化して保存されます。開発者以外がデータに直接アクセスすることはありません。</p>
+
+        <h2>ポリシーの変更</h2>
+        <p>本ポリシーは予告なく変更される場合があります。重大な変更がある場合はサポートサーバーにてお知らせします。</p>
+
+        <h2>お問い合わせ</h2>
+        <p>プライバシーに関するお問い合わせは、GitHubのIssueまたはサポートサーバーよりご連絡ください。</p>
+      </div>
+
+      <!-- English -->
+      <div data-lang="en" class="fade-up">
+        <div class="card" style="margin-bottom:32px">
+          <p>This Privacy Policy describes how OCxeRu2951 ("Developer") collects, uses, and handles information when you use the Discord Bot "Nexus".</p>
+        </div>
+
+        <h2>Information We Collect</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">User Data</div>
+            <div class="info-value">Discord user IDs and usernames</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Server Data</div>
+            <div class="info-value">Guild IDs, channel IDs, role IDs</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Command Data</div>
+            <div class="info-value">Polls, warnings, applications, AFK data</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Settings</div>
+            <div class="info-value">Per-server configuration values</div>
+          </div>
+        </div>
+
+        <h2>Information We Do Not Collect</h2>
+        <ul>
+          <li>Message contents (except command input)</li>
+          <li>Passwords or authentication credentials</li>
+          <li>Email addresses or phone numbers</li>
+          <li>Location data</li>
+        </ul>
+
+        <h2>How We Use Information</h2>
+        <ul>
+          <li>To provide Bot features (polls, moderation, announcements, etc.)</li>
+          <li>To improve and debug the service</li>
+          <li>To prevent abuse</li>
+        </ul>
+
+        <h2>Data Retention</h2>
+        <ul>
+          <li>AFK / poll data: Per server settings (default 7–90 days)</li>
+          <li>Warning data: Default 90 days</li>
+          <li>Application data: Default 90 days</li>
+          <li>Moderation logs: Until deleted by the server</li>
+          <li>Server settings: Until the Bot leaves the server</li>
+        </ul>
+
+        <h2>Third Parties</h2>
+        <p>We do not sell or share your data with third parties, except:</p>
+        <ul>
+          <li>When required by law or legal proceedings</li>
+          <li>Minimal sharing with infrastructure providers (Turso, Cloudflare, GCP) necessary for service operation</li>
+        </ul>
+
+        <h2>Data Deletion</h2>
+        <ul>
+          <li>Remove the Bot from your server (all server data will be deleted)</li>
+          <li>Submit a deletion request via GitHub Issues or the support server</li>
+        </ul>
+
+        <h2>Security</h2>
+        <p>Data is stored encrypted in Turso database. Only the Developer has direct access to the data.</p>
+
+        <h2>Policy Changes</h2>
+        <p>This policy may be updated without notice. Significant changes will be announced in the support server.</p>
+
+        <h2>Contact</h2>
+        <p>For privacy inquiries, please contact us via GitHub Issues or the support server.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 OCxeRu2951 · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus">GitHub</a></p>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

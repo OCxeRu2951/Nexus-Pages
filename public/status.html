@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Status — Nexus Bot</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .hero { padding: 64px 0 48px; }
+    .hero h1 { font-size: clamp(28px,5vw,42px); font-weight:800; margin-bottom:8px; }
+    .hero p { font-size:15px; color:var(--text2); margin-top:8px; }
+
+    /* SEARCH */
+    .search-section { padding: 0 0 48px; }
+    .search-box {
+      display: flex; gap: 10px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 6px 6px 6px 16px;
+      align-items: center;
+      transition: border-color var(--trans);
+    }
+    .search-box:focus-within { border-color: var(--accent); }
+    .search-box input {
+      flex: 1; background: none; border: none; outline: none;
+      color: var(--text); font-size: 15px; font-family: monospace;
+      padding: 6px 0;
+    }
+    .search-box input::placeholder { color: var(--muted); }
+    .search-box button {
+      padding: 8px 18px; border-radius: var(--radius-sm);
+      background: var(--accent); color: #fff;
+      border: none; cursor: pointer; font-size: 13px; font-weight: 700;
+      font-family: inherit; transition: opacity var(--trans);
+      white-space: nowrap;
+    }
+    .search-box button:hover { opacity: 0.85; }
+
+    /* RESULT */
+    .result-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; margin-top: 20px;
+      display: none;
+    }
+    .result-card.visible { display: block; animation: fadeUp 0.3s ease; }
+    .result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .result-id { font-family: monospace; font-size: 18px; font-weight: 700; color: var(--text); }
+    .result-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
+    .result-field { display: flex; flex-direction: column; gap: 4px; }
+    .result-field-label { font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .result-field-value { font-size: 14px; color: var(--text2); }
+
+    /* ERROR */
+    .error-card {
+      background: rgba(242,63,66,0.06); border: 1px solid rgba(242,63,66,0.2);
+      border-radius: var(--radius); padding: 20px; margin-top: 20px;
+      color: var(--danger); font-size: 14px; display: none;
+    }
+    .error-card.visible { display: block; animation: fadeUp 0.3s ease; }
+
+    /* NOTE */
+    .note {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-size: 13px; color: var(--muted); margin-top: 16px;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+
+    /* STATUS COLORS */
+    .status-pending  { background: rgba(240,178,50,0.15); color: var(--warning); }
+    .status-approved { background: rgba(35,165,90,0.15);  color: var(--success); }
+    .status-rejected { background: rgba(242,63,66,0.15);  color: var(--danger); }
+    .status-revoked  { background: rgba(106,100,96,0.15); color: var(--muted); }
+
+    .loading {
+      display: none; align-items: center; gap: 8px;
+      color: var(--muted); font-size: 14px; margin-top: 16px;
+    }
+    .loading.visible { display: flex; }
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><span>[</span>Nexus<span>]</span></a>
+      <ul class="nav-links">
+        <li><a href="/install">Install</a></li>
+        <li><a href="/status" class="active">Status</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="hero fade-up">
+        <p class="label">Application</p>
+        <div data-lang="ja" class="active">
+          <h1>申請状況確認</h1>
+          <p>申請IDを入力して、承認・拒否の状況を確認できます。<br>内容やコメントは表示されません。</p>
+        </div>
+        <div data-lang="en">
+          <h1>Application Status</h1>
+          <p>Enter your application ID to check approval or rejection status.<br>Content and comments are not displayed.</p>
+        </div>
+      </div>
+
+      <div class="search-section fade-up">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="APL-20260514-XXXX"
+            autocomplete="off"
+            spellcheck="false"
+            maxlength="20"
+          />
+          <button onclick="searchApplication()">
+            <span data-lang="ja" class="active">検索</span>
+            <span data-lang="en">Search</span>
+          </button>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <span data-lang="ja" class="active">検索中...</span>
+          <span data-lang="en">Searching...</span>
+        </div>
+
+        <div class="error-card" id="errorCard"></div>
+
+        <div class="result-card" id="resultCard">
+          <div class="result-header">
+            <span class="result-id" id="resultId"></span>
+            <span class="badge" id="resultStatus"></span>
+          </div>
+          <div class="result-fields">
+            <div class="result-field">
+              <span class="result-field-label" data-lang="ja" class="active">申請日時</span>
+              <span class="result-field-label" data-lang="en">Submitted</span>
+              <span class="result-field-value" id="resultCreatedAt">—</span>
+            </div>
+            <div class="result-field">
+              <span class="result-field-label" data-lang="ja" class="active">処理日時</span>
+              <span class="result-field-label" data-lang="en">Resolved</span>
+              <span class="result-field-value" id="resultResolvedAt">—</span>
+            </div>
+            <div class="result-field">
+              <span class="result-field-label" data-lang="ja" class="active">申請者</span>
+              <span class="result-field-label" data-lang="en">Applicant</span>
+              <span class="result-field-value" id="resultUsername">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <span>ℹ</span>
+          <div data-lang="ja" class="active">プライバシー保護のため、申請内容・コメントは表示されません。IDは申請時にDMまたはチャンネルで通知されています。</div>
+          <div data-lang="en">For privacy protection, application content and comments are not displayed. Your ID was sent via DM or channel when you submitted.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 OCxeRu2951 · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus">GitHub</a></p>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    const STATUS_LABELS = {
+      ja: { pending: '未処理', approved: '承認済み', rejected: '拒否', revoked: '取消済み' },
+      en: { pending: 'Pending', approved: 'Approved', rejected: 'Rejected', revoked: 'Revoked' },
+    };
+    const STATUS_CLASS = {
+      pending: 'badge-warning',
+      approved: 'badge-success',
+      rejected: 'badge-danger',
+      revoked: 'badge-muted',
+    };
+    const ERROR_MSG = {
+      ja: { not_found: '指定されたIDの申請が見つかりません。', invalid: '有効なIDを入力してください（例: APL-20260514-XXXX）', server: 'サーバーエラーが発生しました。しばらくしてから再試行してください。' },
+      en: { not_found: 'No application found with that ID.', invalid: 'Please enter a valid ID (e.g. APL-20260514-XXXX)', server: 'A server error occurred. Please try again later.' },
+    };
+
+    function getLang() {
+      return localStorage.getItem('lang') || 'ja';
+    }
+
+    function formatDate(ts) {
+      if (!ts) return '—';
+      const lang = getLang();
+      return new Date(Number(ts)).toLocaleString(lang === 'ja' ? 'ja-JP' : 'en-US', {
+        timeZone: 'Asia/Tokyo',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit',
+      });
+    }
+
+    function showError(key) {
+      const lang = getLang();
+      const card = document.getElementById('errorCard');
+      card.textContent = ERROR_MSG[lang][key] ?? ERROR_MSG[lang].server;
+      card.classList.add('visible');
+      document.getElementById('resultCard').classList.remove('visible');
+    }
+
+    function showResult(data) {
+      const lang = getLang();
+      document.getElementById('errorCard').classList.remove('visible');
+
+      document.getElementById('resultId').textContent = data.id;
+
+      const statusEl = document.getElementById('resultStatus');
+      statusEl.textContent = STATUS_LABELS[lang][data.status] ?? data.status;
+      statusEl.className = 'badge ' + (STATUS_CLASS[data.status] ?? 'badge-muted');
+
+      document.getElementById('resultCreatedAt').textContent  = formatDate(data.created_at);
+      document.getElementById('resultResolvedAt').textContent = data.resolved_at ? formatDate(data.resolved_at) : '—';
+      document.getElementById('resultUsername').textContent   = data.username ?? '—';
+
+      document.getElementById('resultCard').classList.add('visible');
+    }
+
+    async function searchApplication() {
+      const input = document.getElementById('searchInput').value.trim().toUpperCase();
+      const lang  = getLang();
+
+      // バリデーション（APL-YYYYMMDD-XXXX）
+      if (!/^APL-\d{8}-[A-Z0-9]{4}$/.test(input)) {
+        showError('invalid');
+        return;
+      }
+
+      document.getElementById('loading').classList.add('visible');
+      document.getElementById('errorCard').classList.remove('visible');
+      document.getElementById('resultCard').classList.remove('visible');
+
+      try {
+        // ダッシュボードAPIのパブリックエンドポイントを使用
+        const res = await fetch(`/api/applications/${encodeURIComponent(input)}`);
+
+        if (res.status === 404) {
+          showError('not_found');
+          return;
+        }
+        if (!res.ok) {
+          showError('server');
+          return;
+        }
+
+        const data = await res.json();
+        showResult(data);
+      } catch {
+        showError('server');
+      } finally {
+        document.getElementById('loading').classList.remove('visible');
+      }
+    }
+
+    // Enterキーで検索
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') searchApplication();
+    });
+
+    // 大文字変換
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const pos = e.target.selectionStart;
+      e.target.value = e.target.value.toUpperCase();
+      e.target.setSelectionRange(pos, pos);
+    });
+  </script>
+</body>
+</html>

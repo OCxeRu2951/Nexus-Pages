@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Nexus Bot</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .hero { padding: 64px 0 48px; }
+    .hero h1 { font-size: clamp(28px,5vw,42px); font-weight:800; margin-bottom:8px; }
+    .hero .meta { font-size:13px; color:var(--muted); font-family:monospace; margin-top:8px; }
+    h2 {
+      font-size:17px; font-weight:700; margin:36px 0 12px;
+      padding-left:12px; border-left:3px solid var(--accent);
+    }
+    p { color:var(--text2); font-size:15px; margin-bottom:14px; }
+    ul { color:var(--text2); font-size:15px; padding-left:22px; margin-bottom:14px; }
+    li { margin-bottom:6px; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><span>[</span>OCxeRu2951<span>]</span></a>
+      <ul class="nav-links">
+        <li><a href="/install">Install</a></li>
+        <li><a href="/status">Status</a></li>
+        <li><a href="/terms" class="active">Terms</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="hero fade-up">
+        <p class="label">Legal</p>
+        <div data-lang="ja" class="active"><h1>利用規約</h1><p class="meta">最終更新: 2026年5月14日</p></div>
+        <div data-lang="en"><h1>Terms of Service</h1><p class="meta">Last updated: May 14, 2026</p></div>
+      </div>
+
+      <!-- 日本語 -->
+      <div data-lang="ja" class="active fade-up">
+        <div class="card" style="margin-bottom:32px">
+          <p>本利用規約は、OCxeRu2951（以下「開発者」）が提供するDiscord Bot「Nexus」および関連サービスの利用条件を定めます。本Botを利用することで、本規約に同意したものとみなします。</p>
+        </div>
+        <h2>第1条（サービスの概要）</h2>
+        <p>本BotはDiscordサーバー向けのユーティリティBotです。モデレーション・タイマー・投票・時報・申請システム等の機能を提供します。</p>
+        <h2>第2条（利用資格）</h2>
+        <ul>
+          <li>Discordの利用規約を遵守していること</li>
+          <li>13歳以上であること（Discordの要件に準じる）</li>
+          <li>本規約に同意していること</li>
+        </ul>
+        <h2>第3条（禁止事項）</h2>
+        <ul>
+          <li>本Botを違法行為・迷惑行為に使用すること</li>
+          <li>本BotのAPIを不正に操作・悪用すること</li>
+          <li>本Botのサービスを妨害・過負荷をかける行為</li>
+          <li>他のユーザーへの嫌がらせ・差別的行為に本Botを利用すること</li>
+          <li>本Botの機能を改変・逆コンパイルすること（AGPLの範囲を超えるもの）</li>
+        </ul>
+        <h2>第4条（免責事項）</h2>
+        <ul>
+          <li>本Botは現状有姿で提供されます。動作の継続性・正確性を保証しません</li>
+          <li>本Botの利用により生じた損害について、開発者は責任を負いません</li>
+          <li>サービスの一時停止・終了を予告なく行う場合があります</li>
+          <li>Discordのサービス変更・障害による影響については責任を負いません</li>
+        </ul>
+        <h2>第5条（サービスの変更・終了）</h2>
+        <p>開発者は予告なく本Botの機能変更・サービス終了を行う権利を有します。サービス終了の際は可能な限り事前通知を行います。</p>
+        <h2>第6条（ライセンス）</h2>
+        <p>本BotのソースコードはAGPL-3.0ライセンスの下で公開されています。詳細は<a href="https://github.com/OCxeRu2951/DiscordBot-Nexus" target="_blank">GitHubリポジトリ</a>をご確認ください。</p>
+        <h2>第7条（規約の変更）</h2>
+        <p>本規約は予告なく変更される場合があります。変更後も本Botを継続して利用した場合、変更後の規約に同意したものとみなします。</p>
+        <h2>第8条（準拠法）</h2>
+        <p>本規約は日本法に準拠します。</p>
+        <h2>第9条（お問い合わせ）</h2>
+        <p>本規約に関するお問い合わせは、GitHubのIssueまたはサポートサーバーよりご連絡ください。</p>
+      </div>
+
+      <!-- English -->
+      <div data-lang="en" class="fade-up">
+        <div class="card" style="margin-bottom:32px">
+          <p>These Terms of Service govern your use of the Discord Bot "Nexus" and related services provided by OCxeRu2951 ("Developer"). By using the Bot, you agree to these Terms.</p>
+        </div>
+        <h2>1. Service Overview</h2>
+        <p>Nexus is a utility Discord bot providing moderation, timers, polls, hourly announcements, application systems, and more.</p>
+        <h2>2. Eligibility</h2>
+        <ul>
+          <li>You must comply with Discord's Terms of Service</li>
+          <li>You must be at least 13 years of age</li>
+          <li>You must agree to these Terms</li>
+        </ul>
+        <h2>3. Prohibited Activities</h2>
+        <ul>
+          <li>Using the Bot for illegal or harmful activities</li>
+          <li>Unauthorized manipulation or abuse of the Bot's API</li>
+          <li>Actions that disrupt or overload the Bot's services</li>
+          <li>Using the Bot for harassment or discriminatory activities</li>
+          <li>Modifying or reverse-engineering the Bot beyond AGPL permissions</li>
+        </ul>
+        <h2>4. Disclaimer</h2>
+        <ul>
+          <li>The Bot is provided "as is" without warranties</li>
+          <li>The Developer is not liable for any damages from Bot use</li>
+          <li>The service may be suspended or terminated without notice</li>
+          <li>The Developer is not responsible for Discord's service changes</li>
+        </ul>
+        <h2>5. Service Changes</h2>
+        <p>The Developer reserves the right to modify or terminate the service at any time. Advance notice will be provided when possible.</p>
+        <h2>6. License</h2>
+        <p>The Bot's source code is available under AGPL-3.0. See the <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus" target="_blank">GitHub repository</a>.</p>
+        <h2>7. Changes to Terms</h2>
+        <p>These Terms may be updated without notice. Continued use constitutes acceptance.</p>
+        <h2>8. Governing Law</h2>
+        <p>These Terms are governed by the laws of Japan.</p>
+        <h2>9. Contact</h2>
+        <p>For inquiries, contact us via GitHub Issues or the support server.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 OCxeRu2951 · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus">GitHub</a></p>
+  </footer>
+  <script src="shared.js"></script>
+</body>
+</html>
