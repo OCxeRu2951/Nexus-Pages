@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback — Nexus Bot</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      .hero {
+        padding: 64px 0 48px;
+      }
+
+      .hero h1 {
+        font-size: clamp(28px, 5vw, 42px);
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+
+      .hero .meta {
+        font-size: 13px;
+        color: var(--muted);
+        font-family: monospace;
+        margin-top: 8px;
+      }
+
+      h2 {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 36px 0 12px;
+        padding-left: 12px;
+        border-left: 3px solid var(--accent);
+      }
+
+      p {
+        color: var(--text2);
+        font-size: 15px;
+        margin-bottom: 14px;
+      }
+
+      ul {
+        color: var(--text2);
+        font-size: 15px;
+        padding-left: 22px;
+        margin-bottom: 14px;
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      #feedbackInput {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg2);
+        color: var(--text);
+        font-size: 14px;
+        resize: vertical;
+      }
+
+      #submitBtn {
+        padding: 10px 20px;
+        font-size: 14px;
+        color: #fff;
+        background-color: var(--accent);
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+      }
+
+      #submitBtn:hover {
+        background-color: var(--accent-hover);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo"><span>[</span>Nexus<span>]</span></a>
+        <ul class="nav-links">
+          <li><a href="/install">Install</a></li>
+          <li><a href="/apply-status">Apply Status</a></li>
+          <li><a href="/terms">Terms</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/feedback" class="active">Feedback</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="lang-btn" id="langBtn" onclick="toggleLang()">
+            EN
+          </button>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+            ☀
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <div class="hero fade-up">
+          <p class="label">Feedback</p>
+          <div data-lang="ja" class="active">
+            <h1>フィードバック</h1>
+            <p class="meta">
+              ご意見・ご要望・バグ報告はこちらからお願いします。
+            </p>
+          </div>
+          <div data-lang="en">
+            <h1>Feedback</h1>
+            <p class="meta">
+              Please submit your feedback, feature requests, and bug reports
+              here.
+            </p>
+          </div>
+        </div>
+
+        <div class="feedback-form fade-up" style="margin-bottom: 24px">
+          <div style="margin-bottom: 12px">
+            <select id="feedbackType" class="input" style="width: 100%">
+              <option value="bug">🐛 バグ報告 / Bug Report</option>
+              <option value="feature">
+                ✨ 機能リクエスト / Feature Request
+              </option>
+              <option value="other" selected>💬 その他 / Other</option>
+            </select>
+          </div>
+          <textarea
+            id="feedbackInput"
+            placeholder="Enter your feedback here..."
+            rows="6"
+          ></textarea>
+          <div style="margin-top: 14px">
+            <button id="submitBtn" class="primary-btn">Submit</button>
+          </div>
+        </div>
+
+        <div class="card fade-up">
+          <h2>GitHub</h2>
+          <p>
+            <a
+              href="https://github.com/OCxeRu2951/DiscordBot-Nexus/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub Issues
+            </a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        © 2026 OCxeRu2951 · <a href="/terms">Terms</a> ·
+        <a href="/privacy">Privacy</a> ·
+        <a href="https://github.com/OCxeRu2951/DiscordBot-Nexus">GitHub</a>
+      </p>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script src="feedback.js"></script>
+  </body>
+</html>

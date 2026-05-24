@@ -16,6 +16,7 @@
   --radius-sm:6px;
   --shadow:   0 4px 24px rgba(0,0,0,0.4);
   --trans:    0.2s cubic-bezier(0.4,0,0.2,1);
+  --accent-hover: #d96820;
 }
 
 [data-theme="light"] {
@@ -27,6 +28,7 @@
   --text2:  #4a4640;
   --muted:  #8a8480;
   --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --accent-hover: #c85810;
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
