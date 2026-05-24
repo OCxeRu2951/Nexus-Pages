@@ -19,7 +19,7 @@ Nexus Pages is the public-facing website for Nexus Bot. It provides bot installa
 | --- | --- |
 | `/` | Bot introduction and installation guide |
 | `/install` | Feature overview, development progress, setup steps |
-| `/status` | Application status checker (ID search) |
+| `/apply-status` | Application status checker (ID search) |
 | `/terms` | Terms of Service |
 | `/privacy` | Privacy Policy |
 
@@ -49,7 +49,7 @@ nexus-pages/
 │   ├── install.html
 │   ├── terms.html
 │   ├── privacy.html
-│   ├── status.html
+│   ├── apply-status.html
 │   ├── shared.css      # Common styles (dark/light theme)
 │   ├── shared.js       # Theme and language toggle
 │   └── favicon.svg
@@ -128,7 +128,7 @@ npx wrangler pages deploy public --project-name=nexus-pages --branch=main
 ## Environment Variables
 
 | Name | Description |
-|---|---|
+| --- | --- |
 | `TURSO_URL` | Turso database URL |
 | `TURSO_AUTH_TOKEN` | Turso auth token |
 

@@ -19,7 +19,7 @@ Nexus PagesはNexus Botの公開情報サイトです。Bot導入ガイド・法
 | --- | --- |
 | `/` | Bot紹介・導入ガイド |
 | `/install` | 機能一覧・開発進捗・導入手順 |
-| `/status` | 申請状況確認（ID検索） |
+| `/apply-status` | 申請状況確認（ID検索） |
 | `/terms` | 利用規約 |
 | `/privacy` | プライバシーポリシー |
 
@@ -49,7 +49,7 @@ nexus-pages/
 │   ├── install.html
 │   ├── terms.html
 │   ├── privacy.html
-│   ├── status.html
+│   ├── apply-status.html
 │   ├── shared.css      # 共通スタイル（ダーク/ライトテーマ）
 │   ├── shared.js       # テーマ・言語切り替え
 │   └── favicon.svg
