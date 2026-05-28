@@ -153,7 +153,7 @@ async function submitFeedback() {
   btn.textContent = M.sending;
 
   try {
-    const res = await fetch("/api/feedback", {
+    const res = await fetch("/api/applications/feedback", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: text, lang, type }),
