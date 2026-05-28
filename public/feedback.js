@@ -1,5 +1,3 @@
-/* feedback.js */
-
 const MESSAGES = {
   ja: {
     empty: "フィードバックを入力してください。",
@@ -153,7 +151,7 @@ async function submitFeedback() {
   btn.textContent = M.sending;
 
   try {
-    const res = await fetch("/api/applications/feedback", {
+    const res = await fetch("/api/feedback", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: text, lang, type }),
