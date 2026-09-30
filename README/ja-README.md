@@ -2,7 +2,7 @@
 
 > [Nexus Bot](https://github.com/OCxeRu2951/DiscordBot-Nexus) の公開情報サイト
 
-[![Cloudflare Pages](https://img.shields.io/badge/デプロイ先-Cloudflare%20Pages-f07830?logo=cloudflare&logoColor=white)](https://nexus-pages.pages.dev)
+[![Cloudflare Pages](https://img.shields.io/badge/デプロイ先-Cloudflare%20Pages-f07830?logo=cloudflare&logoColor=white)](https://nexus.ocxeru.com)
 [![License](https://img.shields.io/badge/ライセンス-AGPL--3.0-blue)](./LICENSE)
 
 [Click here for the English README.](../README.md)

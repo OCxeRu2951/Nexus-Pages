@@ -4,14 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Changelog — Nexus Bot</title>
+
+  <!-- OGP -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Nexus Bot" />
+  <meta property="og:title"       content="Changelog — Nexus Bot" />
+  <meta property="og:description" content="Nexus Botのアップデート履歴。新機能・修正内容を一覧で確認できます。" />
+  <meta property="og:url"         content="https://nexus.ocxeru.com/changelog" />
+  <meta property="og:image"       content="https://nexus.ocxeru.com/ogp/nexus-default.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="ja_JP" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Changelog — Nexus Bot" />
+  <meta name="twitter:description" content="Nexus Botのアップデート履歴。新機能・修正内容を一覧で確認できます。" />
+  <meta name="twitter:image"       content="https://nexus.ocxeru.com/ogp/nexus-default.svg" />
+  <meta name="description" content="Nexus Botのアップデート履歴。新機能・修正内容を一覧で確認できます。" />
+
   <link rel="stylesheet" href="shared.css" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
-    .hero { padding: 64px 0 48px; }
+    .hero { padding: 56px 0 40px; }
     .hero h1 { font-size: clamp(28px,5vw,42px); font-weight:800; margin-bottom:8px; }
-    .hero .meta { font-size:13px; color:var(--muted); font-family:monospace; margin-top:8px; }
 
-    .version-list { display: flex; flex-direction: column; gap: 32px; margin-top: 40px; }
+    .version-list { display: flex; flex-direction: column; gap: 32px; margin-top: 32px; }
 
     .version-block {
       position: relative;
@@ -28,6 +45,7 @@
       border: 2px solid var(--bg);
     }
     .version-block.latest::before {
+      background: var(--accent);
       box-shadow: 0 0 0 4px rgba(240,120,48,0.2);
     }
 
@@ -61,9 +79,9 @@
       padding: 2px 8px; border-radius: 4px;
       margin-bottom: 8px;
     }
-    .label-added   { background: rgba(35,165,90,0.15);  color: var(--success); }
-    .label-changed { background: rgba(74,138,240,0.15); color: var(--accent2); }
-    .label-fixed   { background: rgba(242,63,66,0.15);  color: var(--danger); }
+    .label-added   { background: rgba(46,204,113,0.15); color: #2ecc71; }
+    .label-changed { background: rgba(52,152,219,0.15); color: #3498db; }
+    .label-fixed   { background: rgba(231,76,60,0.15);  color: #e74c3c; }
 
     .change-list {
       list-style: none;
@@ -103,11 +121,11 @@
       <a href="/" class="nav-logo"><span>[</span>Nexus<span>]</span></a>
       <ul class="nav-links">
         <li><a href="/install">Install</a></li>
-        <li><a href="/apply-status">Apply Status</a></li>
+        <li><a href="/help">Help</a></li>
         <li><a href="/changelog" class="active">Changelog</a></li>
+        <li><a href="/apply-status">Status</a></li>
         <li><a href="/terms">Terms</a></li>
         <li><a href="/privacy">Privacy</a></li>
-        <li><a href="/feedback">Feedback</a></li>
       </ul>
       <div class="nav-actions">
         <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
@@ -122,11 +140,11 @@
         <p class="label">Changelog</p>
         <div data-lang="ja" class="active">
           <h1>更新履歴</h1>
-          <p class="meta">Nexus Botの新機能・修正内容を記録しています</p>
+          <p style="color:var(--text2);font-size:15px;margin-top:8px">Nexus Botの新機能・修正内容を記録しています</p>
         </div>
         <div data-lang="en">
           <h1>Changelog</h1>
-          <p class="meta">A record of new features and fixes for Nexus Bot</p>
+          <p style="color:var(--text2);font-size:15px;margin-top:8px">A record of new features and fixes for Nexus Bot</p>
         </div>
       </div>
 
@@ -143,10 +161,50 @@
   const CHANGELOG = {
     ja: [
       {
+        version: 'v0.10.0',
+        date: '2026-09-30',
+        title: '募集コマンド & プレフィックス再設計',
+        latest: true,
+        sections: [
+          {
+            type: 'added',
+            items: [
+              {
+                text: '<code>/recruit</code> — 参加・取消・締切ボタン付きの募集を追加',
+                sub: [
+                  '人数上限・締切時間・詳細・通知ロールを指定可能',
+                  '定員到達・締切時刻で自動締切、募集者は手動でも締切可能',
+                  '締切時に参加者全員をメンションで通知',
+                ],
+              },
+              { text: '募集のプレフィックスコマンド <code>b!</code> を追加（例：<code>b!ボドゲ会 @3 60分</code>）' },
+              { text: 'ダッシュボードに募集ページを追加（募集中・締切済みの一覧と参加者を表示）' },
+              { text: 'Botがサーバーから削除された場合、データを30日間保持した後に自動削除（30日以内の再導入で取り消し）' },
+            ],
+          },
+          {
+            type: 'changed',
+            items: [
+              { text: '申請のプレフィックスを <code>!apply</code> / <code>!revoke</code> から <code>a!</code> / <code>r!</code> に変更' },
+              { text: 'ダイスのプレフィックスを <code>d!</code> に統一（<code>r!</code> は申請取り消し専用）' },
+              { text: 'すべてのプレフィックスを全角・半角、大文字・小文字を問わず判定' },
+              { text: '<code>a!</code> のコメント欄を廃止し、本文すべてを申請内容として扱うように変更' },
+            ],
+          },
+          {
+            type: 'fixed',
+            items: [
+              { text: 'サーバー退出時に一部のデータが削除されていなかった不具合を修正' },
+              { text: '長い申請内容で通知Embedが表示できなかった不具合を修正' },
+              { text: '<code>/help</code> の詳細表示で見出しが正しく表示されなかった不具合を修正' },
+            ],
+          },
+        ],
+      },
+      {
         version: 'v0.9.0',
         date: '2026-08-10',
         title: 'ダイス/TRPGエンジン & Prefix権限システム',
-        latest: true,
         sections: [
           {
             type: 'added',
@@ -219,10 +277,50 @@
     ],
     en: [
       {
+        version: 'v0.10.0',
+        date: '2026-09-30',
+        title: 'Recruitment Command & Prefix Redesign',
+        latest: true,
+        sections: [
+          {
+            type: 'added',
+            items: [
+              {
+                text: 'Added <code>/recruit</code> — recruitment posts with Join / Leave / Close buttons',
+                sub: [
+                  'Optional capacity, deadline, details and role to notify',
+                  'Closes automatically when full or at the deadline; the host can also close it manually',
+                  'Mentions all members when it closes',
+                ],
+              },
+              { text: 'Added the <code>b!</code> prefix for recruitment (e.g. <code>b!Board games @3 60m</code>)' },
+              { text: 'Added a Recruitment page to the dashboard (open/closed posts and their members)' },
+              { text: 'Server data is now kept for 30 days after Nexus is removed, then deleted automatically (re-adding within 30 days cancels it)' },
+            ],
+          },
+          {
+            type: 'changed',
+            items: [
+              { text: 'Application prefixes changed from <code>!apply</code> / <code>!revoke</code> to <code>a!</code> / <code>r!</code>' },
+              { text: 'Dice now use <code>d!</code> only (<code>r!</code> is reserved for cancelling applications)' },
+              { text: 'All prefixes are matched regardless of full-width/half-width and upper/lower case' },
+              { text: '<code>a!</code> no longer takes a separate comment; the whole message is the application content' },
+            ],
+          },
+          {
+            type: 'fixed',
+            items: [
+              { text: 'Some server data was not deleted when Nexus left a server' },
+              { text: 'Long application content could not be shown in notification embeds' },
+              { text: 'The <code>/help</code> detail view showed a raw key instead of the Options heading' },
+            ],
+          },
+        ],
+      },
+      {
         version: 'v0.9.0',
         date: '2026-08-10',
         title: 'Dice/TRPG Engine & Prefix Permission System',
-        latest: true,
         sections: [
           {
             type: 'added',
@@ -300,12 +398,10 @@
     en: { added: 'Added', changed: 'Changed', fixed: 'Fixed' },
   };
 
-  function getChangelogLang() {
-    return localStorage.getItem('lang') || 'ja';
-  }
+  function getLang() { return localStorage.getItem('lang') || 'ja'; }
 
   function renderChangelog() {
-    const lang = getChangelogLang();
+    const lang = getLang();
     const versions = CHANGELOG[lang];
     const labels = SECTION_LABEL[lang];
 
