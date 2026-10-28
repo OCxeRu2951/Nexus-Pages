@@ -93,7 +93,7 @@ GET /api/applications/APL-20260514-XXXX
 
 ### 前提条件
 
-- Node.js 20以上
+- Node.js 24.22.1以上（22系なら22.23.4以上）
 - Wrangler CLI
 
 ### セットアップ
