@@ -161,10 +161,51 @@
   const CHANGELOG = {
     ja: [
       {
+        version: 'v0.10.1',
+        date: '2026-10-28',
+        title: 'セキュリティ強化 & 不具合修正',
+        latest: true,
+        sections: [
+          {
+            type: 'changed',
+            items: [
+              { text: '申請の承認・拒否は「サーバー管理」権限か通知ロールを持つメンバーのみ操作できるように変更' },
+              { text: '<code>r!</code> で取り消せる申請を、本人がそのサーバーで行った申請のみに変更' },
+              { text: '<code>/role</code> は自分の最上位ロールより下のロールのみ操作できるように変更（<code>@everyone</code> と連携ロールは対象外）' },
+              { text: '<code>/ban</code> <code>/kick</code> <code>/timeout</code> <code>/warn</code> は自分より下位のメンバーにのみ実行できるように変更' },
+              { text: '<code>/lock</code> <code>/slowmode</code> は対象チャンネルでの「チャンネルの管理」権限が必要に' },
+              { text: '<code>a!</code> / <code>b!</code> は同じメンバーの連続送信を10秒間受け付けないように変更' },
+              { text: 'Botが送るメッセージに含まれる、利用者が入力した <code>@everyone</code>・<code>@here</code>・ロールメンションで通知しないように変更（時報と <code>/recruit</code> の通知ロールは従来どおり）' },
+              { text: 'サーバー専用のコマンドをDMでは使えないように変更（<code>/dice</code> <code>/help</code> <code>/language</code> <code>/timer</code> はDMでも使用可）' },
+              { text: '時報の添付ファイルURLはDiscordのファイルURL（<code>cdn.discordapp.com</code> / <code>media.discordapp.net</code>）のみに変更（画像・サムネイルURLは従来どおり）' },
+              {
+                text: 'ダッシュボードのセキュリティを強化',
+                sub: [
+                  'ログインとセッションの仕組みを見直し（この更新で一度ログアウトされます）',
+                  '設定の保存時に入力内容を確認し、別サーバーのチャンネルや範囲外の値は保存できないように',
+                  'Botが導入されていないサーバーや、管理権限のないサーバーの設定は開けないように',
+                ],
+              },
+              { text: '動作環境を Node.js 24 以上に変更し、依存ライブラリを更新' },
+            ],
+          },
+          {
+            type: 'fixed',
+            items: [
+              { text: '一部の操作でBotが停止することがある不具合を修正' },
+              { text: '時報・募集の更新リスト・フォーラムに別サーバーのチャンネルが設定されていた場合、そのチャンネルに投稿しないように修正' },
+              { text: '<code>/ban</code> <code>/kick</code> <code>/timeout</code> <code>/untimeout</code> <code>/unban</code> <code>/role</code> のモデレーションログが記録されていなかった不具合を修正' },
+              { text: '<code>/afk set</code> と <code>/afk list</code> が動作しなかった不具合を修正（AFKの自動解除はそのサーバーで設定した時間で行います）' },
+              { text: '<code>/apply-config mode:export</code> でCSVを出力できなかった不具合を修正（表計算ソフトで開いたときに内容が数式として扱われないようにも変更）' },
+              { text: '保持日数などの設定が範囲外の値のとき、データが意図せず削除されることがある問題を修正' },
+            ],
+          },
+        ],
+      },
+      {
         version: 'v0.10.0',
         date: '2026-09-30',
         title: '募集コマンド & プレフィックス再設計',
-        latest: true,
         sections: [
           {
             type: 'added',
@@ -277,10 +318,51 @@
     ],
     en: [
       {
+        version: 'v0.10.1',
+        date: '2026-10-28',
+        title: 'Security Hardening & Fixes',
+        latest: true,
+        sections: [
+          {
+            type: 'changed',
+            items: [
+              { text: 'Only members with Manage Server or the notification role can approve or reject applications' },
+              { text: '<code>r!</code> now only cancels your own applications made in the same server' },
+              { text: '<code>/role</code> can only manage roles below your highest role (<code>@everyone</code> and integration roles are excluded)' },
+              { text: '<code>/ban</code> <code>/kick</code> <code>/timeout</code> <code>/warn</code> can only target members below you' },
+              { text: '<code>/lock</code> <code>/slowmode</code> now require Manage Channels in the target channel' },
+              { text: '<code>a!</code> / <code>b!</code> ignore repeated messages from the same member for 10 seconds' },
+              { text: '<code>@everyone</code>, <code>@here</code> and role mentions typed by users no longer ping when Nexus repeats them (hourly messages and the <code>/recruit</code> notification role are unchanged)' },
+              { text: 'Server-only commands can no longer be used in DMs (<code>/dice</code> <code>/help</code> <code>/language</code> <code>/timer</code> still work in DMs)' },
+              { text: 'Hourly message file URLs must be Discord file URLs (<code>cdn.discordapp.com</code> / <code>media.discordapp.net</code>); image and thumbnail URLs are unchanged' },
+              {
+                text: 'Improved dashboard security',
+                sub: [
+                  'Reworked login and sessions (you will be signed out once with this update)',
+                  'Settings are validated on save; channels from other servers and out-of-range values are rejected',
+                  'Servers without Nexus, or where you lack admin permissions, can no longer be opened',
+                ],
+              },
+              { text: 'Now requires Node.js 24 or later; dependencies updated' },
+            ],
+          },
+          {
+            type: 'fixed',
+            items: [
+              { text: 'Nexus could stop running after certain actions' },
+              { text: 'Hourly messages, recruitment lists and forums no longer post to a channel that belongs to another server' },
+              { text: 'Moderation logs were not recorded for <code>/ban</code> <code>/kick</code> <code>/timeout</code> <code>/untimeout</code> <code>/unban</code> <code>/role</code>' },
+              { text: '<code>/afk set</code> and <code>/afk list</code> did not work (AFK now expires after the time set in each server)' },
+              { text: '<code>/apply-config mode:export</code> could not export CSV (cells are also no longer treated as formulas in spreadsheet apps)' },
+              { text: 'Data could be deleted unexpectedly when retention settings had out-of-range values' },
+            ],
+          },
+        ],
+      },
+      {
         version: 'v0.10.0',
         date: '2026-09-30',
         title: 'Recruitment Command & Prefix Redesign',
-        latest: true,
         sections: [
           {
             type: 'added',
