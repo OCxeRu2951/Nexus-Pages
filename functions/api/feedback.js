@@ -1,5 +1,5 @@
 const REPO_OWNER = "OCxeRu2951";
-const REPO_NAME  = "DiscordBot-Nexus";
+const REPO_NAME  = "Nexus-DiscordBot";
 
 const TYPE_MAP = {
   bug:     { label: "bug",         prefix: "Bug Report",        color: "d73a4a" },
@@ -34,7 +34,10 @@ export async function onRequestPost(ctx) {
     return json({ error: "Invalid JSON" }, 400);
   }
 
-  const { content, lang = "ja", type = "other" } = body;
+  const { content } = body;
+  // Issue の本文に入るため、言語と種類は決まった値だけにする
+  const lang = body.lang === "en" ? "en" : "ja";
+  const type = Object.hasOwn(TYPE_MAP, body.type) ? body.type : "other";
 
   // バリデーション
   if (!content || typeof content !== "string" || !content.trim()) {
@@ -44,11 +47,15 @@ export async function onRequestPost(ctx) {
     return json({ error: "Content too long (max 1000)" }, 400);
   }
 
-  const t   = TYPE_MAP[type] ?? TYPE_MAP.other;
+  const t   = TYPE_MAP[type];
   const now = new Date().toISOString();
 
+  // 公開リポジトリに投稿されるため、@ の直後にゼロ幅スペースを入れて
+  // 本文の @ユーザー名 で GitHub の通知が飛ばないようにする（見た目は変わらない）
+  const safeContent = content.replace(/@(?=[A-Za-z0-9])/g, "@\u200b");
+
   // Issue タイトル（最大72文字）
-  const shortContent = content.slice(0, 60) + (content.length > 60 ? "..." : "");
+  const shortContent = safeContent.slice(0, 60) + (safeContent.length > 60 ? "..." : "");
   const title        = `[${t.prefix}] ${shortContent}`;
 
   // Issue 本文
@@ -57,7 +64,7 @@ export async function onRequestPost(ctx) {
     "",
     "### 内容 / Content",
     "",
-    content,
+    safeContent,
     "",
     "---",
     "",
