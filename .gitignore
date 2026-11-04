@@ -1,3 +1,7 @@
 node_modules/
 .wrangler/
 .env
+
+# ローカル開発用の環境変数（wrangler pages dev が読む）
+.dev.vars
+.dev.vars.*
